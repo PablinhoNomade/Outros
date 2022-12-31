@@ -1,25 +1,41 @@
-<!-- Este codigo HTML imprime varias bolinhas azuis quando clica na tela cinza  -->
-<canvas width="600" height="400">
+<canvas width="600" height="400"></canvas>
+selecione a cor <input type="color">
 
-    <script>
-        var tela = document.querySelector('canvas');
-        var pincel = tela.getContext('2d');
-        pincel.fillStyle = 'lightgray';
-        pincel.fillRect(0, 0, 600, 400);
-        function desenhaCirculo(evento) {
+<script>
+    var paleta = document.querySelector('input');
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    pincel.fillStyle = 'grey';
+    pincel.fillRect(0, 0, 600, 400);
+    var desenha = false;
+    let grande = 10;
+    function desenhaCirculo(evento) {
+        if (desenha) {
+            if (grande <= 40) {
+                if (evento.shiftKey) { //  Aperta shift para aumentar o tamanho da bolinha 
+                    grande = grande + 10
+                }
+            }
+            if (grande >= 10)
+                if (evento.altKey) { // Aperte alt para diminuir o tamanho da bolinha 
+                    grande = grande - 5
+                }
             var x = evento.pageX - tela.offsetLeft;
             var y = evento.pageY - tela.offsetTop;
-
-            pincel.fillStyle = "blue";
+            pincel.fillStyle = paleta.value; // sempre pega o valor atual da paleta!
             pincel.beginPath();
-            pincel.arc(x, y, 10, 0, 2 * 3.14);
+            pincel.arc(x, y, grande, 0, 2 * 3.14);
             pincel.fill();
-
-            console.log("posição do clique : " + x + ", " + y);
         }
-
-
-        tela.onclick = desenhaCirculo;
-
-    </script>
-</canvas>
+        console.log(x + ',' + y);
+    }
+    tela.onmousemove = desenhaCirculo;
+    // atribuindo diretamente a função anônima
+    tela.onmousedown = function () { // aperta o botao do mouse para desenhar 
+        desenha = true;
+    }
+    // atribuindo diretamente a função anônima
+    tela.onmouseup = function () {
+        desenha = false;
+    }
+</script>
