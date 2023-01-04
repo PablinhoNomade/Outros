@@ -1,37 +1,81 @@
-<canvas width="600" height="400"></canvas>
+<html>
+<h1 style='text-align: center;'> Acerte o Meio do Alvo </h1>
+<h2>Score : <em class="resultado">
+</h2>
+
+<canvas width="1000" height="1000"
+    style="background-image: url(https://img.freepik.com/vetores-gratis/cena-da-floresta-com-lago-e-muitas-arvores-na-hora-do-por-do-sol_1308-55699.jpg?w=2000)"></canvas>
 
 <script>
 
+    var score = 0;
+
     var tela = document.querySelector('canvas');
     var pincel = tela.getContext('2d');
-
     pincel.fillStyle = 'lightgray';
-    pincel.fillRect(0, 0, 600, 400);
-
-    var raio = 10;
+    pincel.fillRect(0, 0, 1000, 1000);
+    var raio = 20;
+    var xAleatorio;
+    var yAleatorio;
 
     function desenhaCirculo(x, y, raio, cor) {
-
         pincel.fillStyle = cor;
         pincel.beginPath();
         pincel.arc(x, y, raio, 0, 2 * Math.PI);
         pincel.fill();
+    };
+
+    function limpaTela() {
+        pincel.clearRect(0, 0, 1000, 1000);
+    };
+
+    function desenhaAlvo(x, y) {
+        desenhaCirculo(x, y, raio + 40, 'red');
+        desenhaCirculo(x, y, raio + 20, 'white');
+        desenhaCirculo(x, y, raio, 'red');
+    };
+
+    function sorteiaPosicao(maximo) {
+        return Math.floor(Math.random() * maximo);
+
+    };
+    let velocidade = 10000;
+    function atualizaTela() {
+        limpaTela();
+        xAleatorio = sorteiaPosicao(1000);
+        yAleatorio = sorteiaPosicao(1000);
+        desenhaAlvo(xAleatorio, yAleatorio);
+
+    };
+    function audio() {
+        const audio = document.querySelector('audio')
     }
-
-    desenhaCirculo(300, 200, raio + 20, 'red'); // maior círculo
-    desenhaCirculo(300, 200, raio + 10, 'white');
-    desenhaCirculo(300, 200, raio, 'red'); // menor circulo
-
-
     function dispara(evento) {
+        const audio = new Audio('https://sounds-mp3.com/mp3/0008657.mp3');
+        audio.play();
         var x = evento.pageX - tela.offsetLeft;
         var y = evento.pageY - tela.offsetTop;
-        if ((x > 300 - raio) &&
-            (x < 300 + raio) &&
-            (y > 200 - raio) &&
-            (y < 200 + raio)) {
-            alert('Acertou no centro do alvo'); // pop-up ao acertar o meio do alvo 
+        if ((x > xAleatorio - raio) && (x < xAleatorio + raio) && (y > yAleatorio - raio) && (y < yAleatorio + raio)) {
+            score++
+            velocidade = velocidade - 150
+            alert('Acertou!');
+            console.log("score", score)
+            console.log("velocidade ", velocidade)
+            document.querySelector(".resultado").innerHTML = score
+            set()
+
         }
+
     }
+
+    function set() {
+        setInterval(atualizaTela, Number(velocidade))
+        console.log("velocidade2 ", velocidade)
+
+    }
+    set()
+
     tela.onclick = dispara;
+
+
 </script>
