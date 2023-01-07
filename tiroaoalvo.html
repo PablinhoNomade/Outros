@@ -1,81 +1,246 @@
 <html>
-<h1 style='text-align: center;'> Acerte o Meio do Alvo </h1>
-<h2>Score : <em class="resultado">
-</h2>
+<meta charset="UTF-8">
+</meta>
 
-<canvas width="1000" height="1000"
-    style="background-image: url(https://img.freepik.com/vetores-gratis/cena-da-floresta-com-lago-e-muitas-arvores-na-hora-do-por-do-sol_1308-55699.jpg?w=2000)"></canvas>
+<head>
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    </link>
 
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+    <style>
+        .btnPlayAudio {
+            min-width: 200px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <style rel="stylesheet" width="1000" height="1000">
+        body {
+            background-position: center;
+            background-size: 100%;
+            background-image: url("https://img.freepik.com/vetores-premium/placa-de-madeira-de-desenho-animado_26659-28.jpg");
+            background-repeat: no-repeat;
+            background-position: 0px 0px 0px 0px;
+            background-position: top;
+
+        }
+    </style>
+
+    <P> .</P>
+    <P> </P>
+    <P> </P>
+    <P> </P>
+    <P> </P>
+    <P> .</P>
+
+    <h1 style='text-align: center;'>________Acerte o Meio do Alvo________ </h1>
+
+    <!-- vidas -->
+    <!-- </h2>
+    <h5 style='text-align:center;'>
+        <img src="
+        https://png.pngtree.com/png-clipart/20220707/ourmid/pngtree-cowboys-hat-illustration-png-image_5751060.png"
+            width="100" height="100" >
+    </h5>
+    <-- encera -->
+
+    <div style=" text-align: center;">
+
+        <h2 style="color: whitesmoke;">Nome :<u class="nome"> </u>
+        </h2>
+        <h2 style="color: whitesmoke;">Chances:<u class="chances"> 5</u>
+        </h2>
+        <h2 style="color: whitesmoke;">Score : <e class="resultado"> 0</e>
+        </h2>
+
+        <P> </P>
+        <P> </P>
+        <P> </P>
+        <audio id="myAudio" play="autoplay">
+            <source
+                src="https://mp3store.cc/download.php?file=eyJpZCI6Ijc3MDkiLCJ1cmwiOiJlbm5pby1tb3JyaWNvbmUtaWwtYnVvbm8taWwtYnJ1dHRvLWlsLWNhdHRpdm8iLCJ0eXBlIjoibG9hZCJ9"
+                type="audio/ogg">
+            <source
+                src="https://mp3store.cc/download.php?file=eyJpZCI6Ijc3MDkiLCJ1cmwiOiJlbm5pby1tb3JyaWNvbmUtaWwtYnVvbm8taWwtYnJ1dHRvLWlsLWNhdHRpdm8iLCJ0eXBlIjoibG9hZCJ9"
+                type="audio/mpeg">
+        </audio>
+        <button class="btnPlayAudio btn btn-primary" onclick="disableaudio()" type="button">
+            <h2> Mute </h2>
+        </button>
+        <button class="btnPlayAudio btn btn-warning" onclick="startGame()" onclick="resetscore()" type="button">
+            <h2> PLAY GAME </h2>
+        </button>
+
+        <button class="btnPlayAudio btn btn-success" onclick="enableLoop()" type="button">
+            <h2> Music </h2>
+        </button>
+    </div>
+    </div>
+
+</body>
+
+<P> </P>
+<P> </P>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <canvas width="1000%" height="1100% "
+        style="background-image: url(https://img.freepik.com/vetores-gratis/cena-da-floresta-com-lago-e-muitas-arvores-na-hora-do-por-do-sol_1308-55699.jpg?w=2000); display: flex; justify-content: center; align-items: center; text-align: center;"></canvas>
+</div>
 <script>
 
+    var nome = prompt("Informe o seu nome");
+
+    function mostra(palavra) {
+
+        document.write(palavra);
+
+    }
+
+    document.querySelector(".nome").innerHTML = nome
+    let chances = 5;
     var score = 0;
 
-    var tela = document.querySelector('canvas');
-    var pincel = tela.getContext('2d');
-    pincel.fillStyle = 'lightgray';
-    pincel.fillRect(0, 0, 1000, 1000);
-    var raio = 20;
-    var xAleatorio;
-    var yAleatorio;
-
-    function desenhaCirculo(x, y, raio, cor) {
-        pincel.fillStyle = cor;
-        pincel.beginPath();
-        pincel.arc(x, y, raio, 0, 2 * Math.PI);
-        pincel.fill();
-    };
-
-    function limpaTela() {
-        pincel.clearRect(0, 0, 1000, 1000);
-    };
-
-    function desenhaAlvo(x, y) {
-        desenhaCirculo(x, y, raio + 40, 'red');
-        desenhaCirculo(x, y, raio + 20, 'white');
-        desenhaCirculo(x, y, raio, 'red');
-    };
-
-    function sorteiaPosicao(maximo) {
-        return Math.floor(Math.random() * maximo);
-
-    };
-    let velocidade = 10000;
-    function atualizaTela() {
-        limpaTela();
-        xAleatorio = sorteiaPosicao(1000);
-        yAleatorio = sorteiaPosicao(1000);
-        desenhaAlvo(xAleatorio, yAleatorio);
-
-    };
-    function audio() {
-        const audio = document.querySelector('audio')
+    function resetscore() {
+        score = 0
+        document.querySelector(".resultado").innerHTML = score
+        document.querySelector(".chances").innerHTML = chances
     }
-    function dispara(evento) {
-        const audio = new Audio('https://sounds-mp3.com/mp3/0008657.mp3');
-        audio.play();
-        var x = evento.pageX - tela.offsetLeft;
-        var y = evento.pageY - tela.offsetTop;
-        if ((x > xAleatorio - raio) && (x < xAleatorio + raio) && (y > yAleatorio - raio) && (y < yAleatorio + raio)) {
-            score++
-            velocidade = velocidade - 150
-            alert('Acertou!');
-            console.log("score", score)
-            console.log("velocidade ", velocidade)
+    // Audio e musica  
+
+    var x = document.getElementById("myAudio");
+
+    let audioSom = true
+
+    function enableLoop() {
+        x.loop = true;
+        x.load();
+        x.play()
+        audioSom = true
+
+    }
+
+    function disableaudio() {
+        audioSom = false;
+        x.loop = false;
+        x.load();
+    }
+    // Fim audio 
+
+    function startGame() {
+        x.loop = true;
+        x.load();
+        x.play()
+
+        let velocidade = 10000;
+
+        function resetscore() {
+            score = 0
             document.querySelector(".resultado").innerHTML = score
-            set()
+            velocidade = 10000;
+            console.log("entrou no resetscore")
+        };
+
+        resetscore();
+
+        var tela = document.querySelector('canvas');
+        var pincel = tela.getContext('2d');
+        var raio = 20;
+        var xAleatorio;
+        var yAleatorio;
+
+        function desenhaCirculo(x, y, raio, cor) {
+            pincel.fillStyle = cor;
+            pincel.beginPath();
+            pincel.arc(x, y, raio, 0, 2 * Math.PI);
+            pincel.fill();
+
+        };
+
+        function limpaTela() {
+            pincel.clearRect(0, 0, 1000, 1100);
+
+        };
+
+        function desenhaAlvo(x, y) {
+            desenhaCirculo(x, y, raio + 40, 'red');
+            desenhaCirculo(x, y, raio + 20, 'white');
+            desenhaCirculo(x, y, raio, 'red');
+
+        };
+
+        function sorteiaPosicao(maximo) {
+            return Math.floor(Math.random() * maximo);
+
+        };
+
+        function atualizaTela1() {
+
+            limpaTela();
+            xAleatorio = sorteiaPosicao(1000);
+            yAleatorio = sorteiaPosicao(1100);
+            desenhaAlvo(xAleatorio, yAleatorio);
+
+        }; atualizaTela1()
+        // 
+        function dispara(evento) {
+
+            const audio = new Audio('https://sounds-mp3.com/mp3/0008657.mp3');
+            if (audioSom == true) {
+                audio.play();
+            }
+
+            var x = evento.pageX - tela.offsetLeft;
+            var y = evento.pageY - tela.offsetTop;
+
+            if (chances > 0 && (x > xAleatorio - raio) && (x < xAleatorio + raio) && (y > yAleatorio - raio) && (y < yAleatorio + raio)) {
+                rap = false
+                score++
+
+                velocidade = velocidade - 150
+
+                alert('😉 Bang ! Você acertou!');
+                console.log("score", score)
+                console.log("velocidade 1", velocidade)
+                document.querySelector(".resultado").innerHTML = score
+
+                set1()
+
+
+            } else if (chances > 0) {
+                chances = chances - 1
+                document.querySelector(".chances").innerHTML = chances
+
+            } else {
+                alert("GAME OVER ☹ , Atualize a tela para jogar novamente ! ")
+            }
+
+
+            function set1() {
+                setInterval(atualizaTela1, Number(velocidade))
+                console.log("velocidade2 ", velocidade)
+
+            }
 
         }
 
+
+        function set1() {
+            setInterval(atualizaTela1, Number(velocidade))
+            console.log("velocidade2 ", velocidade)
+
+        }
+
+
+        set1()
+        tela.onclick = dispara;
+
     }
-
-    function set() {
-        setInterval(atualizaTela, Number(velocidade))
-        console.log("velocidade2 ", velocidade)
-
-    }
-    set()
-
-    tela.onclick = dispara;
-
 
 </script>
+
+</html>
